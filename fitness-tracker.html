@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trailhead</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFF1EC;
+    --paper-deep:#E2E6DF;
+    --ink:#222E2F;
+    --ink-soft:#5A6B6A;
+    --line:#D2D8D0;
+    --accent:#4F6F76;
+    --accent-soft:#C9DBDC;
+    --accent-deep:#374F54;
+    --good:#4F7361;
+    --warn:#B2553A;
+    --card:#F8F9F6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--paper);
+    background-image:radial-gradient(circle at 90% 0%, var(--paper-deep) 0%, transparent 45%);
+    color:var(--ink);font-family:'Inter',sans-serif;padding-bottom:60px;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:24px 18px;}
+  header.hero{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;}
+  .wordmark{font-family:'Fraunces',serif;font-weight:600;font-size:30px;letter-spacing:-0.5px;line-height:1;}
+  .wordmark span{display:block;font-size:13px;font-weight:500;color:var(--ink-soft);letter-spacing:.5px;text-transform:uppercase;margin-top:4px;font-family:'Inter',sans-serif;}
+  .datenav{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;}
+  .datenav button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:15px;cursor:pointer;}
+  .datenav button:hover{background:var(--accent-soft);}
+  #dateLabel{font-size:13px;font-weight:600;min-width:84px;text-align:center;}
+  #todayBtn{font-family:'Inter',sans-serif;font-size:11px;border-radius:14px;width:auto;padding:0 10px;height:26px;color:var(--accent-deep);border-color:var(--accent-soft);}
+  #dateJump{
+    border:1px solid var(--line);border-radius:14px;background:var(--card);
+    font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-soft);
+    padding:0 8px;height:26px;width:30px;cursor:pointer;
+  }
+
+  .path-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 16px;margin-bottom:18px;}
+  .path-card h2{font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin:0 0 14px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.5px;}
+  .path-svg{width:100%;height:70px;display:block;}
+  .stone{cursor:default;}
+  .stone-label{font-family:'JetBrains Mono',monospace;font-size:10px;fill:var(--ink-soft);text-anchor:middle;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;}
+  .card h2{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin:0 0 4px;display:flex;justify-content:space-between;align-items:baseline;}
+  .card .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent-deep);background:var(--accent-soft);padding:2px 9px;border-radius:10px;}
+  .card .note{font-size:12px;color:var(--ink-soft);margin:2px 0 14px;line-height:1.5;}
+
+  .task{display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-bottom:1px solid var(--line);}
+  .task:last-child{border-bottom:none;}
+  .task input{width:19px;height:19px;accent-color:var(--accent);margin-top:1px;flex:none;}
+  .task .tname{font-weight:600;font-size:13.5px;}
+  .task .tdetail{font-size:11.5px;color:var(--ink-soft);margin-top:2px;line-height:1.4;}
+  .task.checked .tname{color:var(--ink-soft);text-decoration:line-through;}
+
+  .restday{text-align:center;padding:18px 0;color:var(--ink-soft);font-family:'Fraunces',serif;font-size:16px;}
+
+  .extra-row{display:grid;grid-template-columns:1fr 70px 26px;gap:6px;margin-top:8px;}
+  .extra-row input{border:1px solid var(--line);border-radius:8px;background:var(--paper);font-family:'Inter',sans-serif;font-size:13px;padding:7px 8px;color:var(--ink);}
+  .extra-row input[type=number]{font-family:'JetBrains Mono',monospace;text-align:right;}
+  .extra-row button{background:var(--accent);border:none;color:#fff;border-radius:8px;cursor:pointer;font-size:16px;}
+  .extra-list .food-row{display:grid;grid-template-columns:1fr 70px 26px;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px;}
+  .extra-list .del{background:none;border:none;color:var(--warn);cursor:pointer;font-size:15px;}
+
+  .safety{background:var(--accent-soft);border-radius:14px;padding:14px 16px;font-size:12px;line-height:1.6;color:var(--accent-deep);margin-bottom:24px;}
+  .safety b{display:block;font-family:'Fraunces',serif;font-size:14px;margin-bottom:4px;color:var(--ink);}
+
+  footer{text-align:center;font-size:11px;color:var(--ink-soft);padding:6px 10px 0;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="wordmark">Trailhead<span>Movement &amp; strength</span></div>
+    <div class="datenav">
+      <button id="prevDay">‹</button>
+      <span id="dateLabel">Today</span>
+      <button id="nextDay">›</button>
+      <button id="todayBtn">today</button>
+      <input type="date" id="dateJump" title="jump to a date">
+    </div>
+  </header>
+
+  <div class="path-card">
+    <h2>This week's path</h2>
+    <svg class="path-svg" viewBox="0 0 600 70" id="weekPath"></svg>
+  </div>
+
+  <div class="card">
+    <h2>Walking <span class="tag">3 mi / day</span></h2>
+    <div class="note">Flat, easy pace. Stop and rest if knees flare up — distance matters more than speed.</div>
+    <div id="walkTasks"></div>
+  </div>
+
+  <div class="card">
+    <h2>Core <span class="tag">LazyFit app</span></h2>
+    <div id="coreTasks"></div>
+  </div>
+
+  <div class="card" id="strengthCard">
+    <h2 id="strengthTitle">Strength</h2>
+    <div class="note" id="strengthNote"></div>
+    <div id="strengthTasks"></div>
+  </div>
+
+  <div class="card">
+    <h2>Extra cardio <span class="tag">optional</span></h2>
+    <div class="extra-list" id="extraList"></div>
+    <div class="extra-row">
+      <input type="text" placeholder="activity" id="extraName">
+      <input type="number" placeholder="minutes" id="extraMin">
+      <button id="extraAdd">+</button>
+    </div>
+  </div>
+
+  <div class="safety">
+    <b>Knee &amp; shoulder reminders</b>
+    Keep knees soft and tracking over toes, avoid deep bends or jumping. For shoulder work, skip overhead pressing and behind-the-neck movements, keep range of motion pain-free, and stop any exercise that pinches. Build load slowly — this plan favors consistency over intensity.
+  </div>
+
+  <footer>This is a personal planning tool, not medical advice — check in with your doctor or physical therapist as you progress, especially around your knee and shoulder.</footer>
+</div>
+
+<script>
+const WEEKDAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+const STRENGTH_PLAN = {
+  1: {title:'Lower body — A', note:'Knee-friendly, controlled range throughout.', exercises:[
+    {n:'Glute bridges', d:'3 x 15, flat back, squeeze at the top'},
+    {n:'Wall sits', d:'3 x 20–30 sec, shallow angle — stop before any knee pain'},
+    {n:'Low step-ups (4–6")', d:'3 x 10 each leg, slow and controlled'},
+    {n:'Standing calf raises', d:'3 x 15'},
+    {n:'Seated leg extensions', d:'3 x 12, light resistance, partial range'},
+  ]},
+  2: {title:'Upper body — A', note:'Shoulder-safe: no overhead pressing, controlled range.', exercises:[
+    {n:'Seated row (band/machine)', d:'3 x 12'},
+    {n:'Chest press, neutral grip', d:'3 x 12, light weight'},
+    {n:'Bicep curls', d:'3 x 12'},
+    {n:'Tricep pushdown', d:'3 x 12'},
+    {n:'Shoulder external rotation (band)', d:'2 x 15, rehab-style for tendonitis'},
+  ]},
+  4: {title:'Lower body — B', note:'Hip-hinge focus, light knee load.', exercises:[
+    {n:'Romanian deadlift', d:'3 x 12, light dumbbells, soft knees'},
+    {n:'Side-lying leg lifts', d:'3 x 15 each side'},
+    {n:'Sit-to-stand squat (shallow)', d:'3 x 10, use a chair for depth control'},
+    {n:'Standing hip abduction (band)', d:'3 x 15 each side'},
+    {n:'Calf raises', d:'3 x 15'},
+  ]},
+  5: {title:'Upper body — B', note:'Rotator-cuff friendly, no front/overhead raises.', exercises:[
+    {n:'Lat pulldown (band/machine)', d:'3 x 12'},
+    {n:'Incline chest press, neutral grip', d:'3 x 12, light weight'},
+    {n:'Hammer curls', d:'3 x 12'},
+    {n:'Reverse fly (light band)', d:'3 x 12, rear delt / rotator cuff care'},
+    {n:'Tricep extension', d:'3 x 12'},
+  ]},
+};
+const RECOVERY_DAYS = [3,6];
+const REST_DAYS = [0];
+
+function fmtDate(d){ return d.toISOString().slice(0,10); }
+function keyFor(d){ return 'fitlog:'+fmtDate(d); }
+
+let current = new Date();
+current.setHours(0,0,0,0);
+
+function getDay(d){
+  try{
+    const raw = JSON.parse(localStorage.getItem(keyFor(d)));
+    if(raw) return raw;
+  }catch(e){}
+  return {tasks:{}, extra:[]};
+}
+function saveDay(d, day){ localStorage.setItem(keyFor(d), JSON.stringify(day)); }
+
+function dayType(weekday){
+  if(STRENGTH_PLAN[weekday]) return 'strength';
+  if(RECOVERY_DAYS.includes(weekday)) return 'recovery';
+  if(REST_DAYS.includes(weekday)) return 'rest';
+  return 'recovery';
+}
+
+function renderDateLabel(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.round((current-today)/86400000);
+  let label;
+  if(diff===0) label='Today';
+  else if(diff===-1) label='Yesterday';
+  else if(diff===1) label='Tomorrow';
+  else label = current.toLocaleDateString(undefined,{month:'short', day:'numeric'});
+  document.getElementById('dateLabel').textContent = label + ' · ' + WEEKDAYS[current.getDay()];
+  document.getElementById('dateJump').value = fmtDate(current);
+}
+
+function taskRow(id, name, detail, checked){
+  return `<div class="task${checked?' checked':''}"><input type="checkbox" data-task="${id}" ${checked?'checked':''}><div><div class="tname">${name}</div><div class="tdetail">${detail}</div></div></div>`;
+}
+
+function render(){
+  renderDateLabel();
+  const weekday = current.getDay();
+  const day = getDay(current);
+  const tasks = day.tasks||{};
+
+  document.getElementById('walkTasks').innerHTML =
+    taskRow('walk_am','Morning walk','1.5 miles, easy pace', !!tasks['walk_am']) +
+    taskRow('walk_pm','Evening walk','1.5 miles, easy pace', !!tasks['walk_pm']);
+
+  document.getElementById('coreTasks').innerHTML =
+    taskRow('lazyfit','Complete LazyFit session','Core routine in the app', !!tasks['lazyfit']);
+
+  const type = dayType(weekday);
+  const strengthCard = document.getElementById('strengthCard');
+  if(type==='strength'){
+    const plan = STRENGTH_PLAN[weekday];
+    document.getElementById('strengthTitle').innerHTML = `${plan.title} <span class="tag">strength</span>`;
+    document.getElementById('strengthNote').textContent = plan.note;
+    document.getElementById('strengthTasks').innerHTML = plan.exercises.map((ex,i)=>
+      taskRow('ex_'+i, ex.n, ex.d, !!tasks['ex_'+i])
+    ).join('');
+  } else if(type==='recovery'){
+    document.getElementById('strengthTitle').innerHTML = `Active recovery <span class="tag">no strength</span>`;
+    document.getElementById('strengthNote').textContent = 'Gentle mobility day — light stretching, optional easy low-impact cardio (bike or elliptical), foam rolling.';
+    document.getElementById('strengthTasks').innerHTML = taskRow('recovery','Mobility / stretch session','10–15 min, gentle pace', !!tasks['recovery']);
+  } else {
+    document.getElementById('strengthTitle').innerHTML = `Rest day`;
+    document.getElementById('strengthNote').textContent = 'No strength training. A short gentle walk is fine if your body wants to move.';
+    document.getElementById('strengthTasks').innerHTML = '<div class="restday">🌿 Recovery is part of the plan.</div>';
+  }
+
+  const extraList = document.getElementById('extraList');
+  extraList.innerHTML = (day.extra||[]).map((e,idx)=>
+    `<div class="food-row"><span>${escapeHtml(e.name)}</span><span style="text-align:right;font-family:'JetBrains Mono',monospace">${e.min} min</span><button class="del" data-idx="${idx}">×</button></div>`
+  ).join('');
+
+  renderWeekPath();
+}
+
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function completionFor(d){
+  const day = getDay(d);
+  const tasks = day.tasks||{};
+  const weekday = d.getDay();
+  let ids = ['walk_am','walk_pm','lazyfit'];
+  const type = dayType(weekday);
+  if(type==='strength') ids = ids.concat(STRENGTH_PLAN[weekday].exercises.map((_,i)=>'ex_'+i));
+  else if(type==='recovery') ids.push('recovery');
+  if(ids.length===0) return 0;
+  const done = ids.filter(id=>tasks[id]).length;
+  return done/ids.length;
+}
+
+function renderWeekPath(){
+  const svg = document.getElementById('weekPath');
+  const startOfWeek = new Date(current);
+  startOfWeek.setDate(current.getDate() - current.getDay());
+  let html = `<line x1="40" y1="35" x2="560" y2="35" stroke="var(--line)" stroke-width="3" />`;
+  for(let i=0;i<7;i++){
+    const d = new Date(startOfWeek); d.setDate(startOfWeek.getDate()+i);
+    const x = 40 + i*(520/6);
+    const pct = completionFor(d);
+    const isToday = fmtDate(d)===fmtDate(current);
+    const r = isToday ? 13 : 11;
+    const fill = pct>=1 ? 'var(--accent)' : pct>0 ? 'var(--accent-soft)' : 'var(--card)';
+    const stroke = isToday ? 'var(--accent-deep)' : 'var(--line)';
+    html += `<circle class="stone" cx="${x}" cy="35" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${isToday?2.5:1.5}" />`;
+    if(pct>=1) html += `<text x="${x}" y="39" text-anchor="middle" font-size="11" fill="#fff">✓</text>`;
+    html += `<text class="stone-label" x="${x}" y="58">${WEEKDAYS[d.getDay()]}</text>`;
+  }
+  svg.innerHTML = html;
+}
+
+document.body.addEventListener('change', e=>{
+  if(e.target.matches('input[data-task]')){
+    const day = getDay(current);
+    day.tasks = day.tasks||{};
+    day.tasks[e.target.dataset.task] = e.target.checked;
+    saveDay(current, day);
+    render();
+  }
+});
+
+document.getElementById('extraAdd').addEventListener('click', ()=>{
+  const nameI = document.getElementById('extraName');
+  const minI = document.getElementById('extraMin');
+  if(!nameI.value.trim() || !minI.value) return;
+  const day = getDay(current);
+  day.extra = day.extra||[];
+  day.extra.push({name:nameI.value.trim(), min:Number(minI.value)});
+  saveDay(current, day);
+  nameI.value=''; minI.value='';
+  render();
+});
+document.getElementById('extraList').addEventListener('click', e=>{
+  if(e.target.matches('.del')){
+    const day = getDay(current);
+    day.extra.splice(Number(e.target.dataset.idx),1);
+    saveDay(current, day);
+    render();
+  }
+});
+
+document.getElementById('prevDay').addEventListener('click', ()=>{ current.setDate(current.getDate()-1); render(); });
+document.getElementById('nextDay').addEventListener('click', ()=>{ current.setDate(current.getDate()+1); render(); });
+document.getElementById('todayBtn').addEventListener('click', ()=>{ current = new Date(); current.setHours(0,0,0,0); render(); });
+document.getElementById('dateJump').addEventListener('change', e=>{
+  if(!e.target.value) return;
+  const [y,m,d] = e.target.value.split('-').map(Number);
+  current = new Date(y, m-1, d);
+  current.setHours(0,0,0,0);
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
