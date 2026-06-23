@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Harvest Log</title>
-<link rel="apple-touch-icon" href="icons/icon-harvest-180.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-harvest-192.png">
+<link rel="apple-touch-icon" href="icons/icon-harvest-180.png?v=2">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-harvest-192.png?v=2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#BD7F2E">
@@ -150,13 +150,39 @@
   .search-item:hover{background:var(--accent-soft);}
   .search-item .si-name{flex:1;padding-right:8px;}
   .search-item .si-val{font-family:'JetBrains Mono',monospace;color:var(--ink-soft);font-size:11.5px;white-space:nowrap;}
+  .search-item .si-mine{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.5px;
+    background:var(--accent-soft);color:var(--accent-deep);border-radius:8px;padding:2px 6px;margin-right:6px;flex:none;
+  }
+
+  .myfood-list{display:flex;flex-direction:column;margin-bottom:6px;}
+  .myfood-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;}
+  .myfood-item:last-child{border-bottom:none;}
+  .myfood-item .mf-name{font-weight:600;flex:1;}
+  .myfood-item .mf-val{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;}
+  .myfood-item .mf-del{background:none;border:none;color:var(--warn);cursor:pointer;font-size:15px;}
+  .myfood-empty{font-size:12px;color:var(--ink-soft);padding:4px 0 10px;}
+  .myfood-add{margin-top:6px;}
+  .myfood-add input[type=text]{
+    width:100%;border:1px solid var(--line);border-radius:8px;background:var(--paper);
+    font-family:'Inter',sans-serif;font-size:13px;padding:8px 10px;color:var(--ink);margin-bottom:6px;
+  }
+  .myfood-add-row{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;}
+  .myfood-add-row input{
+    border:1px solid var(--line);border-radius:8px;background:var(--paper);
+    font-family:'JetBrains Mono',monospace;font-size:13px;padding:8px 6px;color:var(--ink);text-align:right;
+  }
+  .myfood-add-row button{background:var(--accent);border:none;color:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;padding:0 16px;}
+  .myfood-add-row button:hover{background:var(--accent-deep);}
   .search-status{font-size:11.5px;color:var(--ink-soft);padding:6px 2px;}
   .search-divider{display:flex;align-items:center;gap:8px;margin:12px 0 4px;font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.5px;}
   .search-divider::before,.search-divider::after{content:'';flex:1;height:1px;background:var(--line);}
 
-  .log-panel{display:none;background:var(--paper);border:1px solid var(--accent-soft);border-radius:10px;padding:10px;margin-top:6px;}
-  .log-panel.show{display:block;}
-  .log-panel .lp-name{font-weight:600;font-size:13px;margin-bottom:8px;}
+  .log-panel{display:none;background:var(--paper);border:1.5px solid var(--accent);border-radius:10px;padding:12px;margin-top:6px;}
+  .log-panel.show{display:block;animation:lp-pop .15s ease;}
+  @keyframes lp-pop{from{transform:scale(0.97);opacity:0.6;}to{transform:scale(1);opacity:1;}}
+  .log-panel .lp-name{font-weight:600;font-size:13px;margin-bottom:4px;}
+  .log-panel .lp-question{font-size:12px;color:var(--accent-deep);font-weight:600;margin-bottom:6px;}
   .log-panel .lp-row{display:grid;grid-template-columns:64px 1fr auto auto;gap:6px;align-items:center;}
   .log-panel input[type=number]{border:1px solid var(--line);border-radius:8px;background:var(--card);font-family:'JetBrains Mono',monospace;font-size:13px;padding:7px 6px;text-align:right;color:var(--ink);}
   .log-panel select{border:1px solid var(--line);border-radius:8px;background:var(--card);font-family:'Inter',sans-serif;font-size:12.5px;padding:7px 6px;color:var(--ink);}
@@ -241,8 +267,9 @@
     <div class="search-results" data-results></div>
     <div class="log-panel" data-logpanel>
       <div class="lp-name" data-lpname></div>
+      <div class="lp-question">How much did you have?</div>
       <div class="lp-row">
-        <input type="number" data-lpqty value="1" min="0" step="0.25">
+        <input type="number" data-lpqty placeholder="amount" min="0" step="0.25">
         <select data-lpunit></select>
         <button class="lp-add" data-lpadd>Log it</button>
         <button class="lp-cancel" data-lpcancel>✕</button>
@@ -268,8 +295,9 @@
     <div class="search-results" data-results></div>
     <div class="log-panel" data-logpanel>
       <div class="lp-name" data-lpname></div>
+      <div class="lp-question">How much did you have?</div>
       <div class="lp-row">
-        <input type="number" data-lpqty value="1" min="0" step="0.25">
+        <input type="number" data-lpqty placeholder="amount" min="0" step="0.25">
         <select data-lpunit></select>
         <button class="lp-add" data-lpadd>Log it</button>
         <button class="lp-cancel" data-lpcancel>✕</button>
@@ -295,8 +323,9 @@
     <div class="search-results" data-results></div>
     <div class="log-panel" data-logpanel>
       <div class="lp-name" data-lpname></div>
+      <div class="lp-question">How much did you have?</div>
       <div class="lp-row">
-        <input type="number" data-lpqty value="1" min="0" step="0.25">
+        <input type="number" data-lpqty placeholder="amount" min="0" step="0.25">
         <select data-lpunit></select>
         <button class="lp-add" data-lpadd>Log it</button>
         <button class="lp-cancel" data-lpcancel>✕</button>
@@ -322,8 +351,9 @@
     <div class="search-results" data-results></div>
     <div class="log-panel" data-logpanel>
       <div class="lp-name" data-lpname></div>
+      <div class="lp-question">How much did you have?</div>
       <div class="lp-row">
-        <input type="number" data-lpqty value="1" min="0" step="0.25">
+        <input type="number" data-lpqty placeholder="amount" min="0" step="0.25">
         <select data-lpunit></select>
         <button class="lp-add" data-lpadd>Log it</button>
         <button class="lp-cancel" data-lpcancel>✕</button>
@@ -357,6 +387,20 @@
   <div class="card">
     <h2>Vitamins &amp; supplements</h2>
     <div class="vita-list" id="vitaList"></div>
+  </div>
+
+  <div class="card">
+    <h2>My saved foods <span class="tag">recipes &amp; regulars</span></h2>
+    <div class="note">Save something once — a dish, a recipe, a usual order — and it'll show up right in your meal searches from then on.</div>
+    <div class="myfood-list" id="myFoodList"></div>
+    <div class="myfood-add">
+      <input type="text" id="mfName" placeholder="name (e.g. Jill's Tacos)">
+      <div class="myfood-add-row">
+        <input type="number" id="mfCal" placeholder="kcal / serving">
+        <input type="number" id="mfPro" placeholder="protein g / serving">
+        <button id="mfAdd">Save</button>
+      </div>
+    </div>
   </div>
 
   <details class="settings">
@@ -419,6 +463,52 @@ function getWeights(){
   catch(e){ return {}; }
 }
 function saveWeights(w){ localStorage.setItem('nutrilog:weights', JSON.stringify(w)); }
+
+function getCustomFoods(){
+  try{ return JSON.parse(localStorage.getItem('nutrilog:customfoods')) || []; }
+  catch(e){ return []; }
+}
+function saveCustomFoods(list){ localStorage.setItem('nutrilog:customfoods', JSON.stringify(list)); }
+
+function renderCustomFoodsList(){
+  const list = getCustomFoods();
+  const box = document.getElementById('myFoodList');
+  if(list.length === 0){
+    box.innerHTML = '<div class="myfood-empty">No saved foods yet — add one below.</div>';
+    return;
+  }
+  box.innerHTML = list.map(f =>
+    `<div class="myfood-item"><span class="mf-name">${escapeHtml(f.name)}</span><span class="mf-val">${f.cal} kcal · ${f.pro}g /serving</span><button class="mf-del" data-mfdel="${f.id}">×</button></div>`
+  ).join('');
+}
+
+function filterCustomFoods(query){
+  const q = query.toLowerCase();
+  return getCustomFoods().filter(f => f.name.toLowerCase().includes(q));
+}
+
+document.getElementById('mfAdd').addEventListener('click', ()=>{
+  const name = document.getElementById('mfName').value.trim();
+  const cal = Number(document.getElementById('mfCal').value);
+  const pro = Number(document.getElementById('mfPro').value) || 0;
+  if(!name || !cal) return;
+  const list = getCustomFoods();
+  list.push({id: 'cf_'+Date.now(), name, cal, pro});
+  saveCustomFoods(list);
+  document.getElementById('mfName').value='';
+  document.getElementById('mfCal').value='';
+  document.getElementById('mfPro').value='';
+  renderCustomFoodsList();
+});
+
+document.getElementById('myFoodList').addEventListener('click', e=>{
+  if(e.target.matches('[data-mfdel]')){
+    const id = e.target.dataset.mfdel;
+    const list = getCustomFoods().filter(f => f.id !== id);
+    saveCustomFoods(list);
+    renderCustomFoodsList();
+  }
+});
 
 function renderWeight(){
   const settings = getSettings();
@@ -545,6 +635,7 @@ function render(){
   document.getElementById('setGoalWeight').value = settings.goalWeight;
 
   renderWeight();
+  renderCustomFoodsList();
 
   const day = getDay();
   let totalCal=0, totalPro=0;
@@ -704,28 +795,49 @@ document.querySelectorAll('.card[data-meal]').forEach(card=>{
       statusBox.textContent='';
       return;
     }
+    const customMatches = filterCustomFoods(q);
+    renderResults(resultsBox, customMatches, []);
     statusBox.textContent = 'searching…';
-    searchTimers[meal] = setTimeout(()=> runSearch(q, meal, resultsBox, statusBox), 400);
+    searchTimers[meal] = setTimeout(()=> runSearch(q, meal, resultsBox, statusBox, customMatches), 400);
   });
 
   resultsBox.addEventListener('click', async e=>{
     const item = e.target.closest('.search-item');
     if(!item) return;
+    resultsBox.classList.remove('show'); resultsBox.innerHTML='';
+    statusBox.textContent='';
+
+    if(item.dataset.source === 'custom'){
+      selectedFood[meal] = {
+        name: item.dataset.name,
+        custom: true,
+        kcalServing: Number(item.dataset.cal),
+        proServing: Number(item.dataset.pro),
+      };
+      lpName.textContent = selectedFood[meal].name;
+      lpQty.value = '';
+      lpUnit.innerHTML = `<option value="0" selected>serving(s)</option>`;
+      lpUnit.dataset.factors = JSON.stringify([1]);
+      lpHint.textContent = `Each serving = ${selectedFood[meal].kcalServing} kcal · ${selectedFood[meal].proServing}g protein. Enter how many servings.`;
+      logPanel.classList.add('show');
+      lpQty.focus();
+      return;
+    }
+
     selectedFood[meal] = {
       name: item.dataset.name,
       kcalPer100: Number(item.dataset.kcal),
       proPer100: Number(item.dataset.pro),
       fdcId: item.dataset.fdcid,
     };
-    resultsBox.classList.remove('show'); resultsBox.innerHTML='';
-    statusBox.textContent='';
 
     lpName.textContent = selectedFood[meal].name;
-    lpQty.value = 1;
+    lpQty.value = '';
     lpUnit.innerHTML = `<option value="0">grams (g)</option><option value="1" selected>ounces (oz)</option>`;
     lpUnit.dataset.factors = JSON.stringify([1, OZ_IN_GRAMS]);
     lpHint.textContent = 'loading serving sizes…';
     logPanel.classList.add('show');
+    lpQty.focus();
 
     await loadPortions(selectedFood[meal].fdcId, lpUnit, lpHint);
   });
@@ -740,18 +852,26 @@ document.querySelectorAll('.card[data-meal]').forEach(card=>{
     if(!food) return;
     const qty = Number(lpQty.value) || 0;
     if(qty <= 0) return;
-    const factors = JSON.parse(lpUnit.dataset.factors || '[1, 28.3495]');
-    const factor = factors[Number(lpUnit.value)];
-    const grams = qty * factor;
-    const cal = Math.round(food.kcalPer100 * grams/100);
-    const pro = Math.round(food.proPer100 * grams/100 * 10)/10;
-    const unitLabel = lpUnit.options[lpUnit.selectedIndex].textContent;
 
     const day = getDay();
     day[meal] = day[meal]||[];
-    day[meal].push({name: `${food.name} (${qty} ${unitLabel})`, cal, pro});
-    saveDay(day);
 
+    if(food.custom){
+      const cal = Math.round(food.kcalServing * qty);
+      const pro = Math.round(food.proServing * qty * 10)/10;
+      const label = qty === 1 ? '1 serving' : `${qty} servings`;
+      day[meal].push({name: `${food.name} (${label})`, cal, pro});
+    } else {
+      const factors = JSON.parse(lpUnit.dataset.factors || '[1, 28.3495]');
+      const factor = factors[Number(lpUnit.value)];
+      const grams = qty * factor;
+      const cal = Math.round(food.kcalPer100 * grams/100);
+      const pro = Math.round(food.proPer100 * grams/100 * 10)/10;
+      const unitLabel = lpUnit.options[lpUnit.selectedIndex].textContent;
+      day[meal].push({name: `${food.name} (${qty} ${unitLabel})`, cal, pro});
+    }
+
+    saveDay(day);
     input.value='';
     logPanel.classList.remove('show');
     selectedFood[meal] = null;
@@ -821,7 +941,28 @@ async function loadPortions(fdcId, lpUnit, lpHint){
   }
 }
 
-async function runSearch(query, meal, resultsBox, statusBox){
+function renderResults(resultsBox, customMatches, usdaFoods){
+  const customHtml = customMatches.map(f=>
+    `<div class="search-item" data-source="custom" data-name="${escapeHtml(f.name)}" data-cal="${f.cal}" data-pro="${f.pro}">
+      <span class="si-mine">mine</span>
+      <span class="si-name">${escapeHtml(f.name)}</span>
+      <span class="si-val">${f.cal} kcal · ${f.pro}g /serving</span>
+    </div>`
+  ).join('');
+  const usdaHtml = usdaFoods.map(f=>
+    `<div class="search-item" data-source="usda" data-name="${escapeHtml(f.name)}" data-kcal="${f.kcal}" data-pro="${f.pro||0}" data-fdcid="${f.fdcId}">
+      <span class="si-name">${escapeHtml(f.name)}</span>
+      <span class="si-val">${f.kcal} kcal · ${f.pro||0}g/100g</span>
+    </div>`
+  ).join('');
+  const html = customHtml + usdaHtml;
+  resultsBox.innerHTML = html;
+  if(html) resultsBox.classList.add('show');
+  else resultsBox.classList.remove('show');
+}
+
+async function runSearch(query, meal, resultsBox, statusBox, customMatches){
+  customMatches = customMatches || [];
   const settings = getSettings();
   const key = settings.apiKey ? settings.apiKey : 'DEMO_KEY';
   try{
@@ -829,11 +970,11 @@ async function runSearch(query, meal, resultsBox, statusBox){
     const res = await fetch(url);
     if(!res.ok){
       if(res.status===429 || res.status===403){
-        statusBox.textContent = 'Search limit reached — add your own free API key in settings.';
+        statusBox.textContent = customMatches.length ? 'USDA search limit reached — showing your saved foods only.' : 'Search limit reached — add your own free API key in settings.';
       } else {
-        statusBox.textContent = 'Search unavailable right now — try again or add manually.';
+        statusBox.textContent = customMatches.length ? 'USDA search unavailable — showing your saved foods only.' : 'Search unavailable right now — try again or add manually.';
       }
-      resultsBox.classList.remove('show'); resultsBox.innerHTML='';
+      renderResults(resultsBox, customMatches, []);
       return;
     }
     const data = await res.json();
@@ -849,22 +990,17 @@ async function runSearch(query, meal, resultsBox, statusBox){
       };
     }).filter(f=> f.kcal!==null);
 
-    if(foods.length===0){
+    if(foods.length===0 && customMatches.length===0){
       statusBox.textContent = 'No matches — try a simpler search term, or add manually below.';
-      resultsBox.classList.remove('show'); resultsBox.innerHTML='';
+      renderResults(resultsBox, [], []);
       return;
     }
-    statusBox.textContent = `${foods.length} results · tap one to choose how you're measuring it`;
-    resultsBox.innerHTML = foods.map(f=>
-      `<div class="search-item" data-name="${escapeHtml(f.name)}" data-kcal="${f.kcal}" data-pro="${f.pro||0}" data-fdcid="${f.fdcId}">
-        <span class="si-name">${escapeHtml(f.name)}</span>
-        <span class="si-val">${f.kcal} kcal · ${f.pro||0}g/100g</span>
-      </div>`
-    ).join('');
-    resultsBox.classList.add('show');
+    const total = foods.length + customMatches.length;
+    statusBox.textContent = `${total} result${total===1?'':'s'} · tap one to choose how you're measuring it`;
+    renderResults(resultsBox, customMatches, foods);
   }catch(e){
-    statusBox.textContent = 'Search unavailable right now — try again or add manually.';
-    resultsBox.classList.remove('show'); resultsBox.innerHTML='';
+    statusBox.textContent = customMatches.length ? 'USDA search unavailable — showing your saved foods only.' : 'Search unavailable right now — try again or add manually.';
+    renderResults(resultsBox, customMatches, []);
   }
 }
 
